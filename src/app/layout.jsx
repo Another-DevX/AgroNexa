@@ -2,7 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import "@rainbow-me/rainbowkit/styles.css";
+import 'react-toastify/dist/ReactToastify.css';
 import Nav from "@/components/Nav";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,7 @@ export default function RootLayout({ children }) {
           </header>
           {children}
         </Providers>
+        <ToastContainer />
       </body>
     </html>
   );

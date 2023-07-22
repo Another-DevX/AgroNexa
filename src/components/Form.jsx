@@ -1,12 +1,24 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-import { useAccount } from "wagmi";
-import { useRouter } from 'next/navigation'
-
+import { useAccount, useContractWrite } from "wagmi";
+import { useRouter } from "next/navigation";
+import { usePrepareContractWrite } from "wagmi";
+import ABI from "../constants/contractAbi.json";
+import { useEffect } from "react";
 export default function Form() {
-  const { address, isConnected } = useAccount();
-  const router = useRouter()
+  const { isConnected } = useAccount();
+  const [ipfs, setIpfs] = useState();
+  const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState();
+  const router = useRouter();
+  const { config } = usePrepareContractWrite({
+    address: process.env.NEXT_PUBLIC_CONTRACT,
+    abi: ABI,
+    functionName: "addProduct",
+    args: [quantity, price, ipfs],
+  });
+  const { write, status } = useContractWrite(config);
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
@@ -15,17 +27,14 @@ export default function Form() {
     const dataIPFS = Object.fromEntries(formData.entries());
     delete dataApi.name;
     delete dataApi.description;
+    delete dataIPFS.quatity;
     delete dataIPFS.price;
-    delete dataIPFS.quantity;
-    delete dataIPFS.type;
     const response = await axios.post(
       "https://api.pinata.cloud/pinning/pinJSONToIPFS",
       JSON.stringify({
         ...dataIPFS,
         image:
-          dataApi.type === 0
-            ? "https://lavaquita.co/cdn/shop/products/76b6170a-f1e1-4a92-8622-cee94a659b91_700x700.png?v=1622197616"
-            : "https://fruittoday.com/wp-content/uploads/2022/02/conservar-aguacate-correctamente.jpg",
+          "https://lavaquita.co/cdn/shop/products/76b6170a-f1e1-4a92-8622-cee94a659b91_700x700.png?v=1622197616",
       }),
       {
         headers: {
@@ -34,16 +43,19 @@ export default function Form() {
         },
       }
     );
-    const IPFS = response.data;
-    axios.post("anotherApi", {
-      ...dataApi,
-      address,
-      ipfs: IPFS,
-    });
+    setIpfs(response.data.IpfsHash);
+    setPrice(dataApi.price);
+    setQuantity(dataApi.quantity);
   };
 
-  if(!isConnected){
-    router.push("/")
+  useEffect(() => {
+    if (ipfs && quantity && price && write && status === "idle") {
+      write();
+    }
+  }, [ipfs, quantity, price, status, write]);
+
+  if (!isConnected) {
+    router.push("/");
   }
 
   return (
@@ -51,10 +63,6 @@ export default function Form() {
       <h1 className="font-bold text-4xl my-5">¡Crea tu producto!</h1>
 
       <form onSubmit={handleOnSubmit} className="flex flex-col gap-5 p-2">
-        <select placeholder="Tipo" className="h-8" name="type" id="type">
-          <option value="1">Banano</option>
-          <option value="2">Aguate</option>
-        </select>
         <input
           className="h-8 indent-2"
           placeholder="Nombre"

@@ -1,23 +1,46 @@
-import Image from 'next/image'
-import React from 'react'
+"use client";
 
-const NftsGrid = ({ nfts }) => {
+import React from "react";
+import { useAccount, useContractRead } from "wagmi";
+import ABI from "../constants/contractAbi.json";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { NFT } from "./Nft";
+const NftsGrid = () => {
+  const {isConnected} = useAccount()
+  const [nfts, setNfts] = useState();
+  const { data } = useContractRead({
+    address: process.env.NEXT_PUBLIC_CONTRACT,
+    abi: ABI,
+    functionName: "getCurrentId",
+  });
+
+  useEffect(() => {
+    if (data) {
+      let dataSet = [];
+      async function fetchAllData() {
+        data.map((uri) => dataSet.push("https://ipfs.io/ipfs/" + uri));
+
+        const responses = await Promise.all(
+          dataSet.map((endpoint) => axios.get(endpoint))
+        );
+        let NftsData = [];
+        responses.map((response, index) => NftsData.push({ ...response , ipfs: data[index] }))
+        setNfts(NftsData);
+      }
+      fetchAllData();
+    }
+  }, []);
+
   return (
-    <div className='flex flex-col gap-5 w-full md:grid md:grid-cols-2'>
-          {
-            nfts.map((nft) => {
-              return (
-                <span key={nft.name} className='bg-white shadow-md rounded-md w-5/6 md:w-auto flex flex-col justify-center items-center'>
-                  <img src={nft.img} className='w-full full rounded-t-md'/>
-                  <h3 className='text-xl md:text-4xl font-bold m-5 text-center'>{nft.name}</h3>
-                  <p className='text-md md:text-base text-center'>{nft.description}</p>
-                  <button className='py-2 px-4 rounded-md bg-blue-400 shadow-sm my-5 w-4/6 text-white font-bold'>Adquirir</button>
-                </span>
-              )
-            })
-          }
+    <div className="flex flex-col gap-5 w-full md:grid md:grid-cols-2">
+      {(isConnected && nfts) && nfts.map((nft) => {
+        return (
+         <NFT key={nft.name}  nft={nft}/>
+        );
+      })} 
     </div>
-  )
-}
+  );
+};
 
-export default NftsGrid
+export default NftsGrid;
