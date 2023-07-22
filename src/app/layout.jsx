@@ -2,9 +2,9 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers";
 import "@rainbow-me/rainbowkit/styles.css";
-import 'react-toastify/dist/ReactToastify.css';
-import Nav from "@/components/Nav";
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Nav from "@/components/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -74,19 +74,19 @@ export default function Form() {
   }
 
   return (
-    <div className="p-10 rounded-lg shadow-md bg-slate-400">
+    <div className="p-10 rounded-lg shadow-lg bg-slate-200">
       <h1 className="font-bold text-4xl my-5">¡Crea tu producto!</h1>
 
-      <form onSubmit={handleOnSubmit} className="flex flex-col gap-5 p-2">
+      <form onSubmit={handleOnSubmit} className="flex flex-col gap-5 p-2 ">
         <input
-          className="h-8 indent-2"
+          className="h-8 rounded-tr-lg indent-2"
           placeholder="Nombre"
           type="text"
           id="select"
           name="select"
         />
         <input
-          className="h-8 indent-2"
+          className="h-8 rounded-tr-lg indent-2"
           placeholder="Descripcion"
           type="text"
           id="description"
@@ -94,14 +94,14 @@ export default function Form() {
         />
         <div className="flex flex-row gap-5">
           <input
-            className="h-8 indent-2"
+            className="h-8 rounded-tr-lg indent-2"
             placeholder="Precio"
             type="number"
             id="price"
             name="price"
           />
           <input
-            className="h-8 indent-2"
+            className="h-8 rounded-tr-lg indent-2"
             type="number"
             placeholder="Cuantas unidades"
             id="quantity"

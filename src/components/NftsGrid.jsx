@@ -33,10 +33,10 @@ const NftsGrid = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-5 w-full md:grid md:grid-cols-2">
-      {(isConnected && nfts) && nfts.map((nft) => {
+    <div className="flex flex-col gap-5 w-full md:grid md:grid-cols-3">
+      {(isConnected && nfts) && nfts.map((nft, index) => {
         return (
-         <NFT key={nft.name}  nft={nft}/>
+         <NFT key={index}  nft={nft}/>
         );
       })} 
     </div>
