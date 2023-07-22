@@ -3,7 +3,7 @@ import NftsGrid from "@/components/NftsGrid";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import json from '../components/template.json'
-import Form from "@/components/Form";
+import Form from "@/components/Form/Form";
 
 export default function Home() {
   return (
