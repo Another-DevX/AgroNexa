@@ -8,12 +8,8 @@ import {
 } from "wagmi";
 import ABI from "../constants/contractAbi.json";
 import { parseGwei } from "viem";
-<<<<<<< HEAD
 // import {fadeIn} from
 import { motion } from "framer-motion";
-=======
-import Link from "next/link";
->>>>>>> 8544e71234fe21abff9059dcfbd69e15b392101f
 
 function NFT({ nft, key }) {
   console.debug(nft.ipfs);
@@ -65,7 +61,6 @@ function NFT({ nft, key }) {
         {nft.data.name}
       </h3>
       <p className="text-md md:text-base text-center">{nft.data.description}</p>
-<<<<<<< HEAD
       {price && (
         <span className="absolute top-0 left-0 py-4 px-6 ">
           $ {price.toString().split("n")[0]} <span className="text-green-700"> Nexa</span>
@@ -79,21 +74,6 @@ function NFT({ nft, key }) {
         Adquirir
       </button>
     </motion.span>
-=======
-      <div className="flex gap-2">
-        <button
-          disabled={!write}
-          onClick={handleOnClick}
-          className="py-2 px-4 rounded-md bg-blue-400 shadow-sm my-5 w-4/6 text-white font-bold"
-        >
-          Adquirir
-        </button>
-        <Link href="/GenerateQr">
-          <a>Get your QR Code</a>
-        </Link>
-      </div>
-    </span>
->>>>>>> 8544e71234fe21abff9059dcfbd69e15b392101f
   );
 }
 export { NFT };
