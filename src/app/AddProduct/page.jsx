@@ -3,7 +3,7 @@ import React from "react";
 
 export default function page() {
   return (
-    <div className="mt-20">
+    <div className="flex flex-col items-center mt-20">
       <Form />
     </div>
   );
