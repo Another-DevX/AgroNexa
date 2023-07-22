@@ -11,7 +11,7 @@ const Nav = () => {
     <nav className="absolute top-0 left-0 right-0 shadow-lg h-16">
       <ul className="w-full h-full flex flex-row justify-around items-center">
         <li>
-          <Link href="/">Title</Link>
+          <Link className="font-bold text-xl" href="/">AgroNexa</Link>
         </li>
         {isConnected && (
           <li>
