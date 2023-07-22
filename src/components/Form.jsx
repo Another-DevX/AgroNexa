@@ -1,18 +1,14 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 export default function Form() {
+
   const handleOnSubmit = async (e) => {
     e.preventDefault();
 
-    e.target.v
-
-
-
-
-
-
+    const formData = new FormData(e.currentTarget)
+    const data = Object.fromEntries(formData.entries())
 
     const response = await axios.post(
       "https://api.pinata.cloud/pinning/pinJSONToIPFS",
