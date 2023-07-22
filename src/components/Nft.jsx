@@ -8,6 +8,7 @@ import {
 } from "wagmi";
 import ABI from "../constants/contractAbi.json";
 import { parseGwei } from "viem";
+import Link from "next/link";
 
 function NFT({ nft }) {
   console.debug(nft.ipfs);
@@ -56,13 +57,18 @@ function NFT({ nft }) {
         {nft.data.name}
       </h3>
       <p className="text-md md:text-base text-center">{nft.data.description}</p>
-      <button
-        disabled={!write}
-        onClick={handleOnClick}
-        className="py-2 px-4 rounded-md bg-blue-400 shadow-sm my-5 w-4/6 text-white font-bold"
-      >
-        Adquirir
-      </button>
+      <div className="flex gap-2">
+        <button
+          disabled={!write}
+          onClick={handleOnClick}
+          className="py-2 px-4 rounded-md bg-blue-400 shadow-sm my-5 w-4/6 text-white font-bold"
+        >
+          Adquirir
+        </button>
+        <Link href="/GenerateQr">
+          <a>Get your QR Code</a>
+        </Link>
+      </div>
     </span>
   );
 }
