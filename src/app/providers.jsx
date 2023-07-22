@@ -1,45 +1,50 @@
-"use client";
+'use client'
 
-import * as React from "react";
+import * as React from 'react'
 import {
   RainbowKitProvider,
   getDefaultWallets,
-  connectorsForWallets,
-} from "@rainbow-me/rainbowkit";
-import { coreWallet } from "@rainbow-me/rainbowkit/wallets";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { mainnet } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
-
-
-
-const avalancheChain = {
+  connectorsForWallets
+} from '@rainbow-me/rainbowkit'
+import {
+  coreWallet,
+  metaMaskWallet
+} from '@rainbow-me/rainbowkit/wallets';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
+import { publicProvider } from 'wagmi/providers/public'
+import { Chain } from '@wagmi/core'
+ 
+const avalanche = {
   id: 666,
-  name: 'AgroNexa',
-  network: 'avalanche',
-  iconUrl: 'https://example.com/icon.svg',
-  iconBackground: '#fff',
+  name: "AgroNexa",
+  network: "agronexa",
+  iconUrl: "https://example.com/icon.svg",
+  iconBackground: "#fff",
   nativeCurrency: {
     decimals: 18,
-    name: 'Avalanche',
-    symbol: 'AVAX',
+    name: "Nexa",
+    symbol: "NEXA",
   },
   rpcUrls: {
+    public: {
+      http: [
+        "http://137.184.128.122:9650/ext/bc/UMqd7NHzj14t26yJq1WEq7jHmsKrKwECYe6z1esCseupW2Yb1/rpc",
+      ],
+    },
     default: {
-      http: ['http://137.184.128.122:9650/ext/bc/UMqd7NHzj14t26yJq1WEq7jHmsKrKwECYe6z1esCseupW2Yb1/rpc'],
+      http: [
+        "http://137.184.128.122:9650/ext/bc/UMqd7NHzj14t26yJq1WEq7jHmsKrKwECYe6z1esCseupW2Yb1/rpc",
+      ],
     },
   },
   blockExplorers: {
-    default: { name: 'SnowTrace', url: 'https://snowtrace.io' },
-    etherscan: { name: 'SnowTrace', url: 'https://snowtrace.io' },
+    default: { name: "SnowTrace", url: "https://snowtrace.io" },
+    etherscan: { name: "SnowTrace", url: "https://snowtrace.io" },
   },
   testnet: false,
 };
-
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    avalancheChain,
-  ],
+  [avalanche],
   [publicProvider()]
 );
 
@@ -56,10 +61,13 @@ const demoAppInfo = {
 };
 
 const connectors = connectorsForWallets([
-  ...wallets,
+  // ...wallets,
   {
-    groupName: "Other",
-    wallets: [coreWallet({ projectId, chains })],
+    groupName: "Avalanche",
+    wallets: [
+      coreWallet({ projectId, chains }),
+      metaMaskWallet({ projectId, chains }),
+    ],
   },
 ]);
 
