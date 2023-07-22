@@ -18,6 +18,7 @@ const NftsGrid = () => {
   useEffect(() => {
     if (data) {
       let dataSet = [];
+      console.debug({data})
       async function fetchAllData() {
         data.map((uri) => dataSet.push("https://ipfs.io/ipfs/" + uri));
 
@@ -33,7 +34,7 @@ const NftsGrid = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-5 w-full md:grid md:grid-cols-3">
+    <div className="flex flex-col gap-5 w-full md:grid lg:grid-cols-3 md:grid-cols-2">
       {(isConnected && nfts) && nfts.map((nft, index) => {
         return (
          <NFT key={index}  nft={nft}/>

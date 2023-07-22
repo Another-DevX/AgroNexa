@@ -1,7 +1,5 @@
 "use client";
-import Nav from "@/components/Nav";
 import NftsGrid from "@/components/NftsGrid";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Image from "next/image";
 import Form from "@/components/Form";
 import { useAccount } from "wagmi";
@@ -11,7 +9,7 @@ import { motion } from "framer-motion";
 export default function Home() {
   const { isConnected } = useAccount();
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-10  md:p-24">
       <section
         className="min-h-screen w-full flex flex-row gap-10 justify-start items-center"
         id="slide"

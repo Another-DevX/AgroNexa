@@ -10,9 +10,11 @@ import ABI from "../constants/contractAbi.json";
 import { parseGwei } from "viem";
 // import {fadeIn} from
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import QRCode from "qrcode.react";
 
 function NFT({ nft, key }) {
-  console.debug(nft.ipfs);
+  const router = useRouter();
   const [id, setId] = useState();
   const [price, setPrice] = useState();
 
@@ -31,7 +33,11 @@ function NFT({ nft, key }) {
     value: parseGwei(price ? price.toString() : "0"),
   });
   const { write, status } = useContractWrite(config);
+  const [showQR, setShowQR] = useState(false);
 
+  const toggleQR = () => {
+    setShowQR(!showQR);
+  };
   useEffect(() => {
     if (data) {
       setId(data.id);
@@ -40,30 +46,44 @@ function NFT({ nft, key }) {
   }, [data]);
 
   useEffect(() => {
-    console.debug({ price });
+    // console.debug({ price });
   }, [id, price, data]);
 
   const handleOnClick = () => {
-    console.debug(id, price);
+    // console.debug(id, price);
     write();
   };
 
+  // console.debug(nft)
+
   return (
     <motion.span
-    initial={{opacity:0, size:"90%"}}
+      initial={{ opacity: 0, size: "90%" }}
       // variants={fadeIn("rigth", "spring", 0.5 * key, 0.75)}
       whileInView={{ opacity: 1, size: "100%" }}
       key={nft.data.name}
-      className="bg-white relative shadow-md rounded-md w-5/6 md:w-auto flex flex-col justify-center items-center"
+      className="bg-white relative shadow-md rounded-md w-full md:w-auto flex flex-col justify-center items-center"
     >
-      <img src={nft.data.image} className="w-full full rounded-t-md" />
+      <img
+        src={nft.data.image}
+        onClick={toggleQR}
+        className="w-full h-full rounded-t-md"
+        // style={{ visibility: showQR ? "hidden" : "visible" }}
+      />
+      {/* {data.id && showQR && ( */}
+        {/* <div className=" absolute flex justify-center items-center w-full h-2/6"> */}
+          {/* <QRCode onClick={toggleQR} value={data.id} /> */}
+        {/* </div> */}
+      {/* )} */}
+
       <h3 className="text-xl md:text-4xl font-bold m-5 text-center">
         {nft.data.name}
       </h3>
       <p className="text-md md:text-base text-center">{nft.data.description}</p>
       {price && (
         <span className="absolute top-0 left-0 py-4 px-6 ">
-          $ {price.toString().split("n")[0]} <span className="text-green-700"> Nexa</span>
+          $ {price.toString().split("n")[0]}{" "}
+          <span className="text-green-700"> Nexa</span>
         </span>
       )}
       <button
