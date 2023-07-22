@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { usePrepareContractWrite } from "wagmi";
 import ABI from "../constants/contractAbi.json";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 export default function Form() {
   const { isConnected } = useAccount();
   const [ipfs, setIpfs] = useState();
@@ -51,6 +52,17 @@ export default function Form() {
   useEffect(() => {
     if (ipfs && quantity && price && write && status === "idle") {
       write();
+    } else if (status !== "idle") {
+      const id = toast.loading("Please wait...", {toastId: 'customId'});
+      if (status === "success") {
+        toast.update(id, {
+          render: "Created",
+          type: "success",
+          isLoading: false,
+          autoClose: 5000,
+          onClose: router.push('/')
+        });
+      }
     }
   }, [ipfs, quantity, price, status, write]);
 
